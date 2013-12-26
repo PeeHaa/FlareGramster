@@ -23,6 +23,7 @@ input {
     border-radius: 8px;
     text-align: center;
     outline: none;
+    margin-bottom: 20px;
 }
 
 input.loading {
