@@ -7,7 +7,7 @@ body {
     color: #fff;
     font-size: 14px;
     font-family: Lobster, Helvetica, Arial, sans-serif;
-    background-image: url(http://themes.trendywebstar.com/Smallish/images/header-patterns/header-pattern-01.png), url(http://themes.trendywebstar.com/Smallish/images/background-patterns/body-bg-33.jpg);
+    background-image: url(/style/header-pattern-01.png), url(/style/body-bg-33.jpg);
     background-repeat: repeat, repeat;
 }
 
