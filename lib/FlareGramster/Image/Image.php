@@ -45,6 +45,17 @@ class Image implements Graphic
         return $this->height;
     }
 
+    public function getExifData()
+    {
+        $exif = exif_read_data($this->filename);
+
+        if ($exif !== false) {
+            return $exif;
+        }
+
+        return [];
+    }
+
     public function delete()
     {
         unlink($this->filename);
