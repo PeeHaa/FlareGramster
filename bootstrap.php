@@ -3,6 +3,8 @@
 namespace FlareGramster;
 
 use FlareGramster\Common\Autoloader;
+use FlareGramster\Storage\ImmutableArray;
+use FlareGramster\Network\Http\Request;
 use FlareGramster\Image\Process\ImageMagick;
 use FlareGramster\Image\Image;
 use FlareGramster\Image\Process\FlareGramster;
@@ -17,7 +19,17 @@ require_once __DIR__ . '/lib/FlareGramster/Common/Autoloader.php';
 $autoloader = new Autoloader(__NAMESPACE__, __DIR__ . '/lib');
 $autoloader->register();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+/**
+ * Setup the request object
+ */
+$request = new Request(
+    new ImmutableArray($_GET),
+    new ImmutableArray($_POST),
+    new ImmutableArray($_SERVER),
+    new ImmutableArray($_FILES)
+);
+
+if ($request->getMethod() === 'POST') {
     $imageProcessor = new ImageMagick($settings['executable']);
 
     $input  = uniqid('TMP', true) . '.jpg';
@@ -29,6 +41,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $flareGramster = new FlareGramster($image, $imageProcessor, __DIR__ . '/images/output');
     $output = $flareGramster->process();
+
+    if ($request->isXhr()) {
+        echo json_encode([
+            'imageUri' => '/output/' . $output,
+        ]);
+
+        exit;
+    }
 }
 
 if (preg_match('#/output/(.*)$#', $_SERVER['REQUEST_URI'], $matches) === 1) {
