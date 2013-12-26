@@ -17,6 +17,8 @@
                 </form>
                 <?php if (isset($output)) { ?>
                     <img src="/output/<?php echo $output; ?>" id="result">
+                <?php } else { ?>
+                    <p id="progress"></p>
                 <?php } ?>
             </div>
         </div>

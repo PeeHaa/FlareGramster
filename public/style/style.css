@@ -38,6 +38,15 @@ input.loading {
     transition: width .6s ease;
 }
 
+p#progress {
+    height: 14px;
+    visibility: hidden;
+}
+
+p#progress.active {
+    visibility: visible;
+}
+
 h1,h2,h3 {
     text-shadow: 0 0 10px #000;
     margin: 10px 0;
