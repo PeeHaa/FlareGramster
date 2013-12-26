@@ -20,4 +20,7 @@ $settings = [
     'executable' => 'C:\Progra~1\ImageMagick-6.8.7-Q16\convert.exe',
     'gaCode'     => null,
     'gaDomain'   => null,
+    'dbDsn'      => 'pgsql:dbname=f;aregramster;host=127.0.0.1;charset=utf8',
+    'dbUsername' => 'username',
+    'dbPassword' => 'password',
 ];
