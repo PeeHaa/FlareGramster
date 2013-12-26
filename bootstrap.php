@@ -7,6 +7,7 @@ use FlareGramster\Storage\ImmutableArray;
 use FlareGramster\Network\Http\Request;
 use FlareGramster\Image\Process\ImageMagick;
 use FlareGramster\Image\Image;
+use FlareGramster\Storage\Filesystem\Segmented;
 use FlareGramster\Image\Process\FlareGramster;
 
 require_once __DIR__ . '/init.deployment.php';
@@ -30,6 +31,11 @@ $request = new Request(
 );
 
 /**
+ * Setup the output directory
+ */
+$outputDirectory = new Segmented(__DIR__ . '/images/output');
+
+/**
  * Setup router
  */
 if ($request->getMethod() === 'POST') {
@@ -42,7 +48,7 @@ if ($request->getMethod() === 'POST') {
     $image = new Image(__DIR__ . '/images/input/' . $input);
     $image->processInfo();
 
-    $flareGramster = new FlareGramster($image, $imageProcessor, __DIR__ . '/images/output');
+    $flareGramster = new FlareGramster($image, $imageProcessor, $outputDirectory);
     $output = $flareGramster->process();
 
     $image->delete();
@@ -57,12 +63,10 @@ if ($request->getMethod() === 'POST') {
 }
 
 if (preg_match('#/output/(.*)$#', $_SERVER['REQUEST_URI'], $matches) === 1) {
-    $filename = __DIR__ . '/images' . $matches[0];
-
     header('Content-type: image/png');
-    header('Content-Length: ' . filesize($filename));
+    header('Content-Length: ' . filesize($outputDirectory->getFilename($matches[1])));
 
-    echo file_get_contents($filename);
+    echo file_get_contents($outputDirectory->getFilename($matches[1]));
 }
 
 require_once __DIR__ . '/templates/page.phtml';

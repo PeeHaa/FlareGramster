@@ -4,6 +4,7 @@ namespace FlareGramster\Image\Process;
 
 use FlareGramster\Image\Graphic;
 use FlareGramster\Image\Process\Executable;
+use FlareGramster\Storage\Filesystem\Storage;
 
 class FlareGramster
 {
@@ -11,15 +12,15 @@ class FlareGramster
 
     private $imageProcessor;
 
-    private $outputDirectory;
+    private $filesystem;
 
     private $temporaryImage;
 
-    public function __construct(Graphic $image, Executable $imageProcessor, $outputDirectory)
+    public function __construct(Graphic $image, Executable $imageProcessor, Storage $filesystem)
     {
-        $this->originalImage   = $image;
-        $this->imageProcessor  = $imageProcessor;
-        $this->outputDirectory = $outputDirectory;
+        $this->originalImage  = $image;
+        $this->imageProcessor = $imageProcessor;
+        $this->filesystem     = $filesystem;
     }
 
     public function process()
@@ -40,7 +41,7 @@ class FlareGramster
 
         $hipsteredImage = sha1_file($this->temporaryImage) . '.png';
 
-        rename($this->temporaryImage, $this->outputDirectory . '/' . $hipsteredImage);
+        $this->filesystem->rename($this->temporaryImage, $hipsteredImage);
 
         return $hipsteredImage;
     }
