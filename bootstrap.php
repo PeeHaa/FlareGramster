@@ -29,6 +29,9 @@ $request = new Request(
     new ImmutableArray($_FILES)
 );
 
+/**
+ * Setup router
+ */
 if ($request->getMethod() === 'POST') {
     $imageProcessor = new ImageMagick($settings['executable']);
 
@@ -41,6 +44,8 @@ if ($request->getMethod() === 'POST') {
 
     $flareGramster = new FlareGramster($image, $imageProcessor, __DIR__ . '/images/output');
     $output = $flareGramster->process();
+
+    $image->delete();
 
     if ($request->isXhr()) {
         echo json_encode([

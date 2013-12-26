@@ -44,4 +44,9 @@ class Image implements Graphic
     {
         return $this->height;
     }
+
+    public function delete()
+    {
+        unlink($this->filename);
+    }
 }
