@@ -16,7 +16,8 @@ ini_set('log_errors', 0);
  * Setup config
  */
 $settings = [
+    'debugging'  => true,
     'executable' => 'C:\Progra~1\ImageMagick-6.8.7-Q16\convert.exe',
-    'gaCode'     => '1234567890',
-    'gaDomain'   => 'example.com',
+    'gaCode'     => null,
+    'gaDomain'   => null,
 ];
