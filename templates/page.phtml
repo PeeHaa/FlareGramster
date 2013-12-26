@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FlareGramster &bull; Oatmeal</title>
+        <meta charset="UTF-8">
+        <script>'article aside footer header main nav section time'.replace(/\w+/g,function(n){document.createElement(n)})</script>
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link href="/style/style.css" rel="stylesheet" type="text/css" media="screen"></style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div id="content" class="center">
+                <form action="" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="filter" value="">
+                    <h1>Enter Image URL (size will be 612px by 612px)</h1>
+                    <input type="text" name="url" value="http://i.imgur.com/XTBwBhB.jpg" class="dark-shadow">
+                    <div>
+                        <img class="dark-shadow" id="result" alt="" src="">
+                    </div>
+                </form>
+                <?php if (isset($output)) { ?>
+                    <img src="/output/<?php echo $output; ?>">
+                <?php } ?>
+            </div>
+        </div>
+        <div id="footer" class="center">
+            <div class="wrapper">
+                <h2>Orinigal implementation by  <a href="http://webarto.com" target="_blank">★ Webarto</a>. Moar awesomeness by <a href="https://github.com/PeeHaa" target="_blank">★ PeeHaa</a></h2>
+            </div>
+        </div>
+        <?php require_once __DIR__ . '/google-analytics.phtml'; ?>
+    </body>
+</html>
