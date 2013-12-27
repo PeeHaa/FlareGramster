@@ -1,0 +1,26 @@
+{
+    "name": "peehaa/flaregramster",
+    "description": "Turn your crappy scenic photos into oversaturated photos with a douchey hipster on it!",
+    "keywords": ["flaregramster","oatmeal","instagram","hipster","flare"],
+    "homepage": "https://flaregramster.pieterhordijk.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Webarto",
+            "homepage": "http://webarto.com",
+            "role": "developer"
+        },
+        {
+            "name": "Pieter Hordijk",
+            "email": "info@pieterhordijk.com",
+            "homepage": "https://pieterhordijk.com",
+            "role": "developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "lusitanian/oauth": "~0.2"
+    }
+}
