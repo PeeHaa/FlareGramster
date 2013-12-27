@@ -16,9 +16,28 @@
                     <input type="url" name="url" value="http://i.imgur.com/XTBwBhB.jpg" class="dark-shadow">
                 </form>
                 <p id="progress"></p>
-                <?php if (isset($output)) { ?>
-                    <img src="/output/<?php echo $output; ?>" id="result">
-                <?php } ?>
+                <div id="image-container">
+                    <?php if (isset($output)) { ?>
+                        <img src="/output/<?php echo $output; ?>" id="result">
+                    <?php } ?>
+                    <div class="social">
+                        <ul>
+                            <li class="facebook first" title="Facebook"><a href="#"></a></li>
+                            <li class="google" title="Google+"><a href="#"></a></li>
+                            <li class="twitter" title="Twitter"><a href="#"></a></li>
+                            <li class="pinterest" title="Pinterest"><a href="#"></a></li>
+                            <li class="stumbleupon first" title="StumbleUpon"><a href="#"></a></li>
+                            <li class="digg" title="Digg"><a href="#"></a></li>
+                            <li class="forrst" title="Forrst"><a href="#"></a></li>
+                            <li class="reddit" title="Reddit"><a href="#"></a></li>
+                            <li class="delicious first" title="Delicious"><a href="#"></a></li>
+                            <li class="flickr" title="Flickr"><a href="#"></a></li>
+                            <li class="behance" title="Behance"><a href="#"></a></li>
+                            <li class="instagram" title="Instagram"><a href="#"></a></li>
+                            <li class="dribble first" title="Dribble"><a href="#"></a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="footer" class="center">
