@@ -85,7 +85,7 @@ class FlareGramster
         $flare = $glob[(array_rand($glob))];
 
         $this->imageProcessor->execute(
-            $this->temporaryImage . '( "' . $flare . '" -resize ' . $width . 'x' . $height . '! -unsharp 1.5×1.0+1.5+0.02 ) -flatten ' . $this->temporaryImage
+            $this->temporaryImage . ' ( "' . $flare . '" -resize ' . $width . 'x' . $height . '! -unsharp 1.5×1.0+1.5+0.02 ) -flatten ' . $this->temporaryImage
         );
     }
 
