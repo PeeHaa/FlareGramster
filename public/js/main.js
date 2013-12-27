@@ -62,6 +62,8 @@
                 }
 
                 url.className = 'dark-shadow';
+
+                window.history.pushState({}, '', '/' + response.hash);
             }
         };
 

@@ -15,10 +15,9 @@
                     <h1>Enter Image URL (size will be 612px by 612px)</h1>
                     <input type="url" name="url" value="http://i.imgur.com/XTBwBhB.jpg" class="dark-shadow">
                 </form>
+                <p id="progress"></p>
                 <?php if (isset($output)) { ?>
                     <img src="/output/<?php echo $output; ?>" id="result">
-                <?php } else { ?>
-                    <p id="progress"></p>
                 <?php } ?>
             </div>
         </div>

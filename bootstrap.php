@@ -10,6 +10,7 @@ use FlareGramster\Image\Image;
 use FlareGramster\Storage\Filesystem\Segmented;
 use FlareGramster\Image\Process\FlareGramster;
 use FlareGramster\Storage\Database\Image as ImageStorage;
+use FlareGramster\Identifier\Converter;
 
 require_once __DIR__ . '/init.deployment.php';
 
@@ -44,6 +45,11 @@ $dbConnection->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
 $dbConnection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
 /**
+ * Setup id converter
+ */
+$identifier = new Converter();
+
+/**
  * Setup router
  */
 if ($request->getMethod() === 'POST') {
@@ -57,7 +63,7 @@ if ($request->getMethod() === 'POST') {
     $image->processInfo();
 
     $flareGramster = new FlareGramster($image, $imageProcessor, $outputDirectory);
-    $output = $flareGramster->process();
+    $hash = $flareGramster->process();
 
     $data = [
         'userid' => null,
@@ -67,6 +73,7 @@ if ($request->getMethod() === 'POST') {
         'height' => $image->getHeight(),
         'mime'   => $image->getMime(),
         'exif'   => json_encode($image->getExifData()),
+        'image'  => $hash,
     ];
 
     $imageStorage = new ImageStorage($dbConnection);
@@ -74,20 +81,32 @@ if ($request->getMethod() === 'POST') {
 
     $image->delete();
 
-    if ($request->isXhr()) {
-        echo json_encode([
-            'imageUri' => '/output/' . $output,
-        ]);
-
-        exit;
-    }
+    header('Location: ' . $request->getBaseUrl() . '/' . $identifier->toHash($id));
+    exit;
 }
 
-if (preg_match('#/output/(.*)$#', $_SERVER['REQUEST_URI'], $matches) === 1) {
+if (preg_match('#/output/(.*)$#', $request->getPath(), $matches) === 1) {
     header('Content-type: image/png');
     header('Content-Length: ' . filesize($outputDirectory->getFilename($matches[1])));
 
     echo file_get_contents($outputDirectory->getFilename($matches[1]));
+} elseif ($request->getPath() !== '/') {
+    $hashedId = substr($request->getPath(), 1);
+    $id       = $identifier->toPlain($hashedId);
+
+    $imageStorage = new ImageStorage($dbConnection);
+    $hash = $imageStorage->getHash($id);
+
+    $output = $hash . '.png';
+
+    if ($request->isXhr()) {
+        echo json_encode([
+            'imageUri' => '/output/' . $output,
+            'hash'     => $hashedId,
+        ]);
+
+        exit;
+    }
 }
 
 require_once __DIR__ . '/templates/page.phtml';

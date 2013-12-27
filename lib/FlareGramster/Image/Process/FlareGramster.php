@@ -39,11 +39,11 @@ class FlareGramster
 
         $this->addFrame(612, 612);
 
-        $hipsteredImage = sha1_file($this->temporaryImage) . '.png';
+        $hash = sha1_file($this->temporaryImage);
 
-        $this->filesystem->rename($this->temporaryImage, $hipsteredImage);
+        $this->filesystem->rename($this->temporaryImage, $hash . '.png');
 
-        return $hipsteredImage;
+        return $hash;
     }
 
     private function createTemporaryImage()
