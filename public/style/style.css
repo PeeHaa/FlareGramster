@@ -79,3 +79,99 @@ a {
     text-shadow: 0 0 10px #fff;
     text-decoration: none;
 }
+
+#image-container {
+    position: relative;
+    display: inline-block;
+}
+
+#image-container .social {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: url(/style/social-background.jpg);
+    opacity: 0.9;
+    display: none;
+}
+
+#image-container:hover .social {
+    display: block;
+    text-align: center;
+}
+
+#image-container .social ul {
+    position: relative;
+    width: 389px;
+    margin: 30% auto;
+}
+
+#image-container .social li {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+}
+
+#image-container .social li.first {
+    margin-left: 0;
+}
+
+#image-container .social li.facebook {
+    background: #3b5998 url(/style/sl-sprite.png) 400px 400px;
+}
+
+#image-container .social li.digg {
+    background: #356aa0 url(/style/sl-sprite.png) 320px 400px;
+}
+
+#image-container .social li.twitter {
+    background: #00a0d1 url(/style/sl-sprite.png) 160px 320px;
+}
+
+#image-container .social li.pinterest {
+    background: #c8232c url(/style/sl-sprite.png) 320px 240px;
+}
+
+#image-container .social li.google {
+    background: #db4a39 url(/style/sl-sprite.png) 160px 240px;
+}
+
+#image-container .social li.stumbleupon {
+    background: #ea4b24 url(/style/sl-sprite.png) 560px 160px;
+}
+
+#image-container .social li.reddit {
+    background: #cee3f8 url(/style/sl-sprite.png) 480px 160px;
+}
+
+#image-container .social li.delicious {
+    background: #205cc0 url(/style/sl-sprite.png) 240px 400px;
+}
+
+#image-container .social li.forrst {
+    background: #5b9a68 url(/style/sl-sprite.png) 560px 480px;
+}
+
+#image-container .social li.flickr {
+    background: #ff0084 url(/style/sl-sprite.png) 480px 80px;
+}
+
+#image-container .social li.behance {
+    background: #053eff url(/style/sl-sprite.png) 480px 320px;
+}
+
+#image-container .social li.instagram {
+    background: #3f729b url(/style/sl-sprite.png) 320px 80px;
+}
+
+#image-container .social li.dribble {
+    background: #ea4c89 url(/style/sl-sprite.png) 400px 80px;
+}
+
+#image-container .social li a {
+    display: block;
+    height: 80px;
+}
