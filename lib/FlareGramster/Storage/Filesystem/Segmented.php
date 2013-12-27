@@ -21,7 +21,7 @@ class Segmented implements Storage
         $directory = $this->workingDirectory . '/' . implode('/', $this->getSegmentsFromFilename($newName));
 
         if (!is_dir($directory)) {
-            mkdir($directory, 0660, true);
+            mkdir($directory, 0760, true);
         }
 
         rename($oldName, $directory . '/' . $newName);
