@@ -6,6 +6,12 @@
         <script>'article aside footer header main nav section time'.replace(/\w+/g,function(n){document.createElement(n)})</script>
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         <link href="/style/style<?php if ($settings['debugging'] == false) echo '-min'; ?>.css" rel="stylesheet" type="text/css" media="screen"></style>
+        <?php foreach ($metaTags as $type => $group) { ?>
+            <?php foreach ($group as $key => $value) { ?>
+                <?php if ($value === null) continue; ?>
+                <meta <?php echo $type; ?>="<?php echo $key; ?>" content="<?php echo htmlspecialchars($value); ?>">
+            <?php } ?>
+        <?php } ?>
     </head>
     <body>
         <div class="wrapper">
@@ -26,6 +32,7 @@
                             <li class="google" title="Google+"><a href="#"></a></li>
                             <li class="twitter" title="Twitter"><a href="#"></a></li>
                             <li class="pinterest" title="Pinterest"><a href="#"></a></li>
+                            <li class="first post">Test</li>
                             <li class="stumbleupon first" title="StumbleUpon"><a href="#"></a></li>
                             <li class="digg" title="Digg"><a href="#"></a></li>
                             <li class="forrst" title="Forrst"><a href="#"></a></li>

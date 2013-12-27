@@ -50,6 +50,28 @@ $dbConnection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 $identifier = new Converter();
 
 /**
+ * Setup base meta tags
+ */
+$metaTags = [
+    'name' => [
+        'description'    => 'Turn your crappy scenic photos into oversaturated photos with a douchey hipster on it!',
+        'keywords'       => 'flaregramster,oatmeal,instagram,hipster,flare,image,photo,scenic',
+        'twitter:card'   => 'summary',
+        'twitter:title'  => 'Turn your crappy scenic photos into oversaturated photos with a douchey hipster on it!',
+        'twitter:image'  => null,
+    ],
+    'property' => [
+        'og:title'       => 'FlareGramster',
+        'og:url'         => 'https://flaregramster.pieterhordijk.com',
+        'og:site_name'   => 'FlareGramster',
+        'og:type'        => null,
+        'og:image'       => null,
+        'og:local'       => 'en_US',
+        'og:description' => 'Turn your crappy scenic photos into oversaturated photos with a douchey hipster on it!',
+    ],
+];
+
+/**
  * Setup router
  */
 if ($request->getMethod() === 'POST') {
@@ -107,6 +129,10 @@ if (preg_match('#/output/(.*)$#', $request->getPath(), $matches) === 1) {
 
         exit;
     }
+
+    $metaTags['name']['twitter:card']  = 'photo';
+    $metaTags['name']['twitter:image'] = $request->getBaseUrl() . '/output/' . $output;
+    $metaTags['property']['og:image']  = $request->getBaseUrl() . '/output/' . $output;
 }
 
 require_once __DIR__ . '/templates/page.phtml';
