@@ -12,6 +12,8 @@ interface Graphic
 
     public function getHeight();
 
+    public function getMime();
+
     public function getExifData();
 
     public function delete();
