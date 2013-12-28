@@ -166,6 +166,7 @@ if (preg_match('#^/output/(.*)$#', $request->getPath(), $matches) === 1) {
     $metaTags['name']['twitter:image'] = $request->getBaseUrl() . '/output/' . $output;
     $metaTags['property']['og:image']  = $request->getBaseUrl() . '/output/' . $output;
     $metaTags['property']['og:type']   = 'article';
+    $metaTags['property']['og:url']    = $request->getBaseUrl() . $request->getPath();
 
     $oauth->setUp($_SERVER);
 }
