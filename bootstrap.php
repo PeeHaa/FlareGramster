@@ -77,7 +77,7 @@ $metaTags = [
         'og:site_name'   => 'FlareGramster',
         'og:type'        => null,
         'og:image'       => null,
-        'og:local'       => 'en_US',
+        'og:locale'      => 'en_US',
         'og:description' => 'Turn your crappy scenic photos into oversaturated photos with a douchey hipster on it!',
     ],
 ];
@@ -165,6 +165,7 @@ if (preg_match('#^/output/(.*)$#', $request->getPath(), $matches) === 1) {
     $metaTags['name']['twitter:card']  = 'photo';
     $metaTags['name']['twitter:image'] = $request->getBaseUrl() . '/output/' . $output;
     $metaTags['property']['og:image']  = $request->getBaseUrl() . '/output/' . $output;
+    $metaTags['property']['og:type']   = 'article';
 
     $oauth->setUp($_SERVER);
 }
