@@ -10,16 +10,16 @@
     "packages-dev": [
         {
             "name": "lusitanian/oauth",
-            "version": "v0.2.4",
+            "version": "v0.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Lusitanian/PHPoAuthLib.git",
-                "reference": "b83cf1079f40c52de1fe62c8fd49741ca7c7aa1f"
+                "reference": "27e375e13e1badcd6dca7fb47b154b3c48fdec0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Lusitanian/PHPoAuthLib/zipball/b83cf1079f40c52de1fe62c8fd49741ca7c7aa1f",
-                "reference": "b83cf1079f40c52de1fe62c8fd49741ca7c7aa1f",
+                "url": "https://api.github.com/repos/Lusitanian/PHPoAuthLib/zipball/27e375e13e1badcd6dca7fb47b154b3c48fdec0c",
+                "reference": "27e375e13e1badcd6dca7fb47b154b3c48fdec0c",
                 "shasum": ""
             },
             "require": {
@@ -69,7 +69,7 @@
                 "oauth",
                 "security"
             ],
-            "time": "2013-11-09 14:55:37"
+            "time": "2013-12-25 20:05:42"
         }
     ],
     "aliases": [
