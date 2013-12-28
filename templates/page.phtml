@@ -27,22 +27,20 @@
                         <img src="/output/<?php echo $output; ?>" id="result">
                     <?php } ?>
                     <div class="social">
-                        <ul>
-                            <li class="facebook first" title="Facebook"><a href="#"></a></li>
-                            <li class="google" title="Google+"><a href="#"></a></li>
-                            <li class="twitter" title="Twitter"><a href="#"></a></li>
-                            <li class="pinterest" title="Pinterest"><a href="#"></a></li>
-                            <li class="first post">Test</li>
-                            <li class="stumbleupon first" title="StumbleUpon"><a href="#"></a></li>
-                            <li class="digg" title="Digg"><a href="#"></a></li>
-                            <li class="forrst" title="Forrst"><a href="#"></a></li>
-                            <li class="reddit" title="Reddit"><a href="#"></a></li>
-                            <li class="delicious first" title="Delicious"><a href="#"></a></li>
-                            <li class="flickr" title="Flickr"><a href="#"></a></li>
-                            <li class="behance" title="Behance"><a href="#"></a></li>
-                            <li class="instagram" title="Instagram"><a href="#"></a></li>
-                            <li class="dribble first" title="Dribble"><a href="#"></a></li>
-                        </ul>
+                        <?php if (isset($socialForm)) { ?>
+                            <form action="<?php echo $request->getPath(); ?>" method="post">
+                                <textarea name="message" placeholder="Type in your message"></textarea>
+                                <input type="submit" name="submit" value="Post Message">
+                            </form>
+                        <?php } else { ?>
+                            <ul>
+                                <?php $i = 0; ?>
+                                <?php foreach ($settings['social'] as $name => $data) { ?>
+                                    <li class="<?php echo $name; ?> <?php if ($i % 4 === 0) echo 'first'; ?>" title="Share on <?php echo $data['title']; ?>"><a href="<?php echo $oauth->getUri($name); ?>"></a></li>
+                                    <?php $i++; ?>
+                                <?php } ?>
+                            </ul>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
