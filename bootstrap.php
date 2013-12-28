@@ -3,6 +3,7 @@
 namespace FlareGramster;
 
 use FlareGramster\Common\Autoloader;
+use FlareGramster\Social\OAuth;
 use FlareGramster\Storage\ImmutableArray;
 use FlareGramster\Network\Http\Request;
 use FlareGramster\Image\Process\ImageMagick;
@@ -21,6 +22,11 @@ require_once __DIR__ . '/lib/FlareGramster/Common/Autoloader.php';
 
 $autoloader = new Autoloader(__NAMESPACE__, __DIR__ . '/lib');
 $autoloader->register();
+
+/**
+ * Setup composer libraries
+ */
+require_once __DIR__ . '/vendor/autoload.php';
 
 /**
  * Setup the request object
@@ -45,6 +51,11 @@ $dbConnection->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
 $dbConnection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
 /**
+ * Setup the oAuth library
+ */
+$oauth = new OAuth($settings['social']);
+
+/**
  * Setup id converter
  */
 $identifier = new Converter();
@@ -54,7 +65,7 @@ $identifier = new Converter();
  */
 $metaTags = [
     'name' => [
-        'description'    => 'Turn your crappy scenic photos into oversaturated photos with a douchey hipster on it!',
+        'description'    => 'Turn your crappy scenic photos into oversaturated photos with a douchey hipster on it! You can share this photo and show everyone how you think about deep things like seagulls and clouds and shit!',
         'keywords'       => 'flaregramster,oatmeal,instagram,hipster,flare,image,photo,scenic',
         'twitter:card'   => 'summary',
         'twitter:title'  => 'Turn your crappy scenic photos into oversaturated photos with a douchey hipster on it!',
@@ -74,7 +85,7 @@ $metaTags = [
 /**
  * Setup router
  */
-if ($request->getMethod() === 'POST') {
+if ($request->getMethod() === 'POST' && $request->getPath() === '/') {
     $imageProcessor = new ImageMagick($settings['executable']);
 
     $input  = uniqid('TMP', true) . '.jpg';
@@ -107,13 +118,34 @@ if ($request->getMethod() === 'POST') {
     exit;
 }
 
-if (preg_match('#/output/(.*)$#', $request->getPath(), $matches) === 1) {
+if (preg_match('#^/[a-z0-9]+/share/(.*)$#i', $request->getPath(), $matches) === 1 && $request->getMethod() === 'GET') {
+    if ($request->get('code')) {
+        $oauth->setUp($_SERVER);
+
+        $oauth->getAccessToken($matches[1], $request->get('code'));
+
+        header('Location: ' . $request->getBaseUrl() . $request->getPath());
+        exit;
+    } else {
+        $socialForm = true;
+    }
+} elseif (preg_match('#^/([a-z0-9]+)/share/(.*)$#i', $request->getPath(), $matches) === 1 && $request->getMethod() === 'POST') {
+    $oauth->setUp($_SERVER);
+
+    $oauth->postMessage($matches[2], $request->getBaseUrl() . '/' . $matches[1], $request->post('message'));
+
+    header('Location: ' . $request->getBaseUrl() . '/' . $matches[1]);
+    exit;
+}
+
+if (preg_match('#^/output/(.*)$#', $request->getPath(), $matches) === 1) {
     header('Content-type: image/png');
     header('Content-Length: ' . filesize($outputDirectory->getFilename($matches[1])));
 
     echo file_get_contents($outputDirectory->getFilename($matches[1]));
 } elseif ($request->getPath() !== '/') {
-    $hashedId = substr($request->getPath(), 1);
+    $pathParts = explode('/', trim($request->getPath(), '/'));
+    $hashedId = $pathParts[0];
     $id       = $identifier->toPlain($hashedId);
 
     $imageStorage = new ImageStorage($dbConnection);
@@ -133,6 +165,8 @@ if (preg_match('#/output/(.*)$#', $request->getPath(), $matches) === 1) {
     $metaTags['name']['twitter:card']  = 'photo';
     $metaTags['name']['twitter:image'] = $request->getBaseUrl() . '/output/' . $output;
     $metaTags['property']['og:image']  = $request->getBaseUrl() . '/output/' . $output;
+
+    $oauth->setUp($_SERVER);
 }
 
 require_once __DIR__ . '/templates/page.phtml';
