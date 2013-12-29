@@ -2,6 +2,8 @@
 
 namespace FlareGramster\Storage\Database;
 
+use FlareGramster\Image\Data
+
 class Image
 {
     private $dbConnection;
@@ -11,7 +13,7 @@ class Image
         $this->dbConnection = $dbConnection;
     }
 
-    public function persistImage(array $data)
+    public function persistImage(Data $data)
     {
         $query = 'INSERT INTO images';
         $query.= ' (userid, ip, uri, width, height, mime, exif, image)';
@@ -19,7 +21,16 @@ class Image
         $query.= ' (:userid, :ip, :uri, :width, :height, :mime, :exif, :image)';
 
         $stmt = $this->dbConnection->prepare($query);
-        $stmt->execute($data);
+        $stmt->execute([
+            'userid' => $data->getUserId(),
+            'ip'     => $data->getIp(),
+            'uri'    => $data->getUri(),
+            'width'  => $data->getWidth(),
+            'height' => $data->getHeight(),
+            'mime'   => $data->getMime(),
+            'exif'   => $data->getExif(),
+            'image'  => $data->getHash(),
+        ]);
 
         return $this->dbConnection->lastInsertId('images_id_seq');
     }
