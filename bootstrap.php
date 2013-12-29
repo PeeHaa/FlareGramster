@@ -13,8 +13,6 @@ use FlareGramster\Image\Process\FlareGramster;
 use FlareGramster\Storage\Database\Image as ImageStorage;
 use FlareGramster\Identifier\Converter;
 
-require_once __DIR__ . '/init.deployment.php';
-
 /**
  * Setup the library autoloader
  */
@@ -39,6 +37,11 @@ $request = new Request(
 );
 
 /**
+ * Setup the environment
+ */
+require_once __DIR__ . '/init.deployment.php';
+
+/**
  * Setup the output directory
  */
 $outputDirectory = new Segmented(__DIR__ . '/images/output');
@@ -49,11 +52,6 @@ $outputDirectory = new Segmented(__DIR__ . '/images/output');
 $dbConnection = new \PDO($settings['dbDsn'], $settings['dbUsername'], $settings['dbPassword']);
 $dbConnection->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
 $dbConnection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
-/**
- * Setup the oAuth library
- */
-$oauth = new OAuth($settings['social']);
 
 /**
  * Setup id converter
@@ -120,9 +118,7 @@ if ($request->getMethod() === 'POST' && $request->getPath() === '/') {
 
 if (preg_match('#^/[a-z0-9]+/share/(.*)$#i', $request->getPath(), $matches) === 1 && $request->getMethod() === 'GET') {
     if ($request->get('code')) {
-        $oauth->setUp($_SERVER);
-
-        $oauth->getAccessToken($matches[1], $request->get('code'));
+        $oAuthServices->get($matches[1])->getAccessToken($request->get('code'));
 
         header('Location: ' . $request->getBaseUrl() . $request->getPath());
         exit;
@@ -165,8 +161,6 @@ if (preg_match('#^/output/(.*)$#', $request->getPath(), $matches) === 1) {
     $metaTags['name']['twitter:card']  = 'photo';
     $metaTags['name']['twitter:image'] = $request->getBaseUrl() . '/output/' . $output;
     $metaTags['property']['og:image']  = $request->getBaseUrl() . '/output/' . $output;
-
-    $oauth->setUp($_SERVER);
 }
 
 require_once __DIR__ . '/templates/page.phtml';
