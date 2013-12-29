@@ -2,7 +2,7 @@
 
 namespace FlareGramster\Storage\Database;
 
-use FlareGramster\Image\Data
+use FlareGramster\Image\Data;
 
 class Image
 {
