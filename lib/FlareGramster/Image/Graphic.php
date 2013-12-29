@@ -4,7 +4,7 @@ namespace FlareGramster\Image;
 
 interface Graphic
 {
-    public function processInfo();
+    public function process($uri);
 
     public function getFilename();
 

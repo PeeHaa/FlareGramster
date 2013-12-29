@@ -4,6 +4,8 @@ namespace FlareGramster\Image;
 
 class Image implements Graphic
 {
+    private $directory;
+
     private $filename;
 
     private $width;
@@ -12,22 +14,31 @@ class Image implements Graphic
 
     private $mime;
 
-    public function __construct($filename)
+    public function __construct($directory)
     {
-        if (!is_file($filename)) {
-            throw new InvalidImageException('File (' . $filename . ') not found.');
+        if (!is_dir($directory)) {
+            throw new InvalidDirectoryException('Invalid input directory (' . $directory . ') specified.');
         }
 
-        $this->filename = $filename;
+        $this->directory = $directory;
     }
 
-    public function processInfo()
+    public function process($uri)
     {
+        $this->storeLocally($uri);
+
         $info = getimagesize($this->filename);
 
         $this->width  = $info[0];
         $this->height = $info[1];
         $this->mime   = $info['mime'];
+    }
+
+    private function storeLocally($uri)
+    {
+        $this->filename  = $this->directory . '/' . uniqid('TMP', true) . '.jpg';
+
+        file_put_contents($this->filename, file_get_contents($uri));
     }
 
     public function getFilename()
